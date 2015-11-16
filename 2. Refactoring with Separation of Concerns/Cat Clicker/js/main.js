@@ -13,7 +13,10 @@ var model = {
 			name: 'Tiger',
 			imgSrc: 'img/cat2.jpg'
 		}
-	]
+	],
+	addNewCat: function(newCat) {
+		model.cats.push(newCat);
+	}
 };
 
 
@@ -27,6 +30,7 @@ var octopus = {
 		// initialize view
 		catListView.init();
 		catView.init();
+		catAddForm.init();
 	},
 
 	getCurrentCat: function() {
@@ -113,6 +117,40 @@ var catListView = {
 			// adding element to the list
 			this.catListElem.appendChild(elem);
 		}
+	}
+};
+
+var catAddForm = {
+	init: function(){
+		this.saveNewCatButton = document.getElementById('save');
+		this.cancelNewCatButton = document.getElementById('cancel');
+		this.newCatClicks = document.getElementById('clicks');
+		this.newCatName = document.getElementById('name');
+		this.newCatImgUrl = document.getElementById('img-url');
+
+		// saving new cat
+		this.saveNewCatButton.addEventListener('click', function(){
+			var newCat = {};
+			newCat.clickCount = catAddForm.newCatClicks.value;
+			newCat.name = catAddForm.newCatName.value;
+			newCat.imgSrc = catAddForm.newCatImgUrl.value;
+
+			model.addNewCat(newCat);
+
+			catListView.render();
+			catAddForm.render();
+		});
+
+		// cancel saving new cat
+		this.cancelNewCatButton.addEventListener('click', function(){
+			catAddForm.render();
+		});
+	},
+
+	render: function(){
+		this.newCatClicks.value = '';
+		this.newCatName.value = '';
+		this.newCatImgUrl.value = '';
 	}
 };
 
